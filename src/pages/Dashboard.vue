@@ -1,56 +1,51 @@
 <template>
   <div>
-    <h1 class="text-4xl font-bold text-primary mb-8">Dashboard</h1>
+    <h1 class="text-2xl font-bold text-slate-900 mb-6">Dashboard</h1>
 
-    <!-- Stats Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-      <div class="bg-white rounded-lg shadow p-6">
-        <div class="text-gray-600 text-sm font-medium mb-2">Total Products</div>
-        <div class="text-3xl font-bold text-primary">{{ productsStore.products.length }}</div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      <div class="admin-card p-6">
+        <div class="text-slate-500 text-sm font-medium mb-1">Total Products</div>
+        <div class="text-2xl font-bold text-slate-900">{{ productsStore.products.length }}</div>
       </div>
-
-      <div class="bg-white rounded-lg shadow p-6">
-        <div class="text-gray-600 text-sm font-medium mb-2">Total Categories</div>
-        <div class="text-3xl font-bold text-secondary">{{ categoriesStore.categories.length }}</div>
+      <div class="admin-card p-6">
+        <div class="text-slate-500 text-sm font-medium mb-1">Total Categories</div>
+        <div class="text-2xl font-bold text-emerald-600">{{ categoriesStore.categories.length }}</div>
       </div>
-
-      <div class="bg-white rounded-lg shadow p-6">
-        <div class="text-gray-600 text-sm font-medium mb-2">Total Orders</div>
-        <div class="text-3xl font-bold text-accent">{{ ordersStore.orders.length }}</div>
+      <div class="admin-card p-6">
+        <div class="text-slate-500 text-sm font-medium mb-1">Total Orders</div>
+        <div class="text-2xl font-bold text-amber-600">{{ ordersStore.orders.length }}</div>
       </div>
-
-      <div class="bg-white rounded-lg shadow p-6">
-        <div class="text-gray-600 text-sm font-medium mb-2">Total Revenue</div>
-        <div class="text-3xl font-bold text-primary">{{ formatCurrency(totalRevenue) }}</div>
+      <div class="admin-card p-6">
+        <div class="text-slate-500 text-sm font-medium mb-1">Total Revenue</div>
+        <div class="text-2xl font-bold text-slate-900">{{ formatCurrency(totalRevenue) }}</div>
       </div>
     </div>
 
-    <!-- Recent Orders -->
-    <div class="bg-white rounded-lg shadow p-6">
-      <h2 class="text-2xl font-bold text-primary mb-4">Recent Orders</h2>
-      <div v-if="ordersStore.orders.length === 0" class="text-center py-8 text-gray-500">
+    <div class="admin-card p-6">
+      <h2 class="text-lg font-semibold text-slate-900 mb-4">Recent Orders</h2>
+      <div v-if="ordersStore.orders.length === 0" class="text-center py-12 text-slate-500">
         No orders yet
       </div>
-      <div v-else class="overflow-x-auto">
-        <table class="w-full">
+      <div v-else class="overflow-x-auto -mx-6 -mb-6">
+        <table class="admin-table">
           <thead>
-            <tr class="border-b">
-              <th class="text-left py-2 px-4 font-semibold">Order ID</th>
-              <th class="text-left py-2 px-4 font-semibold">Amount</th>
-              <th class="text-left py-2 px-4 font-semibold">Status</th>
-              <th class="text-left py-2 px-4 font-semibold">Date</th>
+            <tr>
+              <th>Order ID</th>
+              <th>Amount</th>
+              <th>Status</th>
+              <th>Date</th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="order in ordersStore.orders.slice(0, 5)" :key="order.id" class="border-b hover:bg-neutral">
-              <td class="py-3 px-4">{{ order.id.slice(0, 8) }}...</td>
-              <td class="py-3 px-4">{{ formatCurrency(order.total_amount) }}</td>
-              <td class="py-3 px-4">
-                <span :class="getStatusColor(order.status)" class="px-3 py-1 rounded-full text-sm font-medium">
+            <tr v-for="order in ordersStore.orders.slice(0, 5)" :key="order.id">
+              <td class="font-mono text-sm">{{ order.id.slice(0, 8) }}...</td>
+              <td>{{ formatCurrency(order.total_amount) }}</td>
+              <td>
+                <span :class="['px-3 py-1 rounded-full text-xs font-medium', getStatusClass(order.status)]">
                   {{ order.status }}
                 </span>
               </td>
-              <td class="py-3 px-4">{{ formatDate(order.created_at) }}</td>
+              <td>{{ formatDate(order.created_at) }}</td>
             </tr>
           </tbody>
         </table>
@@ -74,24 +69,21 @@ const totalRevenue = computed(() => {
 })
 
 const formatCurrency = (amount: number) => {
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-  }).format(amount)
+  return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount)
 }
 
 const formatDate = (dateString: string) => {
   return new Date(dateString).toLocaleDateString()
 }
 
-const getStatusColor = (status: string) => {
-  const colors: Record<string, string> = {
-    pending: 'bg-yellow-100 text-yellow-800',
-    processing: 'bg-blue-100 text-blue-800',
-    completed: 'bg-green-100 text-green-800',
-    cancelled: 'bg-red-100 text-red-800',
+const getStatusClass = (status: string) => {
+  const map: Record<string, string> = {
+    pending: 'badge-pending',
+    processing: 'badge-processing',
+    completed: 'badge-completed',
+    cancelled: 'badge-cancelled',
   }
-  return colors[status] || 'bg-gray-100 text-gray-800'
+  return map[status] || 'bg-slate-100 text-slate-700'
 }
 
 onMounted(async () => {

@@ -1,28 +1,28 @@
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-primary to-dark flex items-center justify-center p-4">
-    <div class="bg-white rounded-lg shadow-2xl p-8 w-full max-w-md">
-      <h1 class="text-3xl font-bold text-primary mb-8 text-center">TwentyFiveMade</h1>
-      <h2 class="text-xl font-semibold text-dark mb-6 text-center">Admin Login</h2>
+  <div class="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center p-4">
+    <div class="admin-card w-full max-w-md p-8 shadow-xl">
+      <h1 class="text-2xl font-bold text-slate-900 mb-1 text-center">TwentyFiveMade</h1>
+      <h2 class="text-lg font-medium text-slate-600 mb-6 text-center">Admin Login</h2>
 
-      <form @submit.prevent="handleLogin" class="space-y-4">
+      <form @submit.prevent="handleLogin" class="space-y-5">
         <div>
-          <label class="block text-sm font-medium text-dark mb-2">Email</label>
+          <label class="block text-sm font-medium text-slate-700 mb-1.5">Email</label>
           <input
             v-model="email"
             type="email"
             required
-            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary"
+            class="admin-input"
             placeholder="admin@twentyfivemade.com"
           />
         </div>
 
         <div>
-          <label class="block text-sm font-medium text-dark mb-2">Password</label>
+          <label class="block text-sm font-medium text-slate-700 mb-1.5">Password</label>
           <input
             v-model="password"
             type="password"
             required
-            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary"
+            class="admin-input"
             placeholder="••••••••"
           />
         </div>
@@ -30,7 +30,7 @@
         <button
           type="submit"
           :disabled="authStore.loading"
-          class="w-full bg-secondary hover:bg-green-700 text-white font-semibold py-2 rounded-lg transition disabled:opacity-50"
+          class="w-full admin-btn-primary py-3 text-base disabled:opacity-60 disabled:cursor-not-allowed"
         >
           {{ authStore.loading ? 'Logging in...' : 'Login' }}
         </button>

@@ -1,11 +1,11 @@
 <template>
-  <div id="app" class="min-h-screen bg-neutral">
+  <div id="app" class="min-h-screen bg-[#f1f5f9]">
     <component v-if="!isLoggedIn" :is="LoginPage" />
     <template v-else>
       <Navbar />
-      <div class="flex">
+      <div class="flex min-h-[calc(100vh-56px)]">
         <Sidebar />
-        <main class="flex-1 p-6">
+        <main class="flex-1 p-6 lg:p-8 overflow-auto">
           <RouterView />
         </main>
       </div>

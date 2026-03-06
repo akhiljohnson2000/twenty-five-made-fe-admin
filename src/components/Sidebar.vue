@@ -1,40 +1,45 @@
 <template>
-  <aside class="w-64 bg-primary text-white shadow-lg">
-    <nav class="p-6 space-y-2">
+  <aside class="w-60 bg-[#0f172a] text-white flex-shrink-0 border-r border-slate-700/50 flex flex-col">
+    <nav class="p-4 space-y-1">
       <RouterLink
         to="/dashboard"
-        class="block px-4 py-3 rounded hover:bg-secondary transition"
-        :class="{ 'bg-secondary': isActive('Dashboard') }"
+        class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-700/50 hover:text-white transition-colors"
+        :class="{ 'bg-emerald-600/20 text-emerald-400': isActive('Dashboard') }"
       >
-        📊 Dashboard
+        <span class="text-lg" aria-hidden="true">📊</span>
+        <span>Dashboard</span>
       </RouterLink>
       <RouterLink
         to="/products"
-        class="block px-4 py-3 rounded hover:bg-secondary transition"
-        :class="{ 'bg-secondary': isActive('Products') }"
+        class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-700/50 hover:text-white transition-colors"
+        :class="{ 'bg-emerald-600/20 text-emerald-400': isActive('Products') }"
       >
-        📦 Products
+        <span class="text-lg" aria-hidden="true">📦</span>
+        <span>Products</span>
       </RouterLink>
       <RouterLink
         to="/categories"
-        class="block px-4 py-3 rounded hover:bg-secondary transition"
-        :class="{ 'bg-secondary': isActive('Categories') }"
+        class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-700/50 hover:text-white transition-colors"
+        :class="{ 'bg-emerald-600/20 text-emerald-400': isActive('Categories') }"
       >
-        🏷️ Categories
+        <span class="text-lg" aria-hidden="true">🏷️</span>
+        <span>Categories</span>
       </RouterLink>
       <RouterLink
         to="/orders"
-        class="block px-4 py-3 rounded hover:bg-secondary transition"
-        :class="{ 'bg-secondary': isActive('Orders') }"
+        class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-700/50 hover:text-white transition-colors"
+        :class="{ 'bg-emerald-600/20 text-emerald-400': isActive('Orders') }"
       >
-        🛒 Orders
+        <span class="text-lg" aria-hidden="true">🛒</span>
+        <span>Orders</span>
       </RouterLink>
       <RouterLink
         to="/cashbook"
-        class="block px-4 py-3 rounded hover:bg-secondary transition"
-        :class="{ 'bg-secondary': isActive('Cashbook') }"
+        class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-700/50 hover:text-white transition-colors"
+        :class="{ 'bg-emerald-600/20 text-emerald-400': isActive('Cashbook') }"
       >
-        💰 Cashbook
+        <span class="text-lg" aria-hidden="true">💰</span>
+        <span>Cashbook</span>
       </RouterLink>
     </nav>
   </aside>
