@@ -12,7 +12,7 @@
             type="email"
             required
             class="admin-input"
-            placeholder="admin@twentyfivemade.com"
+            placeholder="admin@xxxx.com"
           />
         </div>
 
