@@ -1,0 +1,67 @@
+import { defineStore } from 'pinia'
+import { ref } from 'vue'
+import axios from 'axios'
+
+export interface Order {
+  id: string
+  user_id: string
+  total_amount: number
+  status: 'pending' | 'processing' | 'completed' | 'cancelled'
+  created_at: string
+  updated_at: string
+  items?: OrderItem[]
+}
+
+export interface OrderItem {
+  id: string
+  order_id: string
+  product_id: string
+  quantity: number
+  price: number
+  product_name?: string
+}
+
+export const useOrdersStore = defineStore('orders', () => {
+  const orders = ref<Order[]>([])
+  const loading = ref(false)
+  const error = ref<string | null>(null)
+
+  const fetchOrders = async () => {
+    loading.value = true
+    error.value = null
+    try {
+      const response = await axios.get('/api/admin/orders', {
+        headers: { Authorization: `Bearer ${localStorage.getItem('admin_token')}` },
+      })
+      orders.value = response.data
+    } catch (err: any) {
+      error.value = err.response?.data?.message || 'Failed to fetch orders'
+    } finally {
+      loading.value = false
+    }
+  }
+
+  const updateOrderStatus = async (id: string, status: Order['status']) => {
+    try {
+      const response = await axios.patch(`/api/admin/orders/${id}`, { status }, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('admin_token')}` },
+      })
+      const index = orders.value.findIndex(o => o.id === id)
+      if (index !== -1) {
+        orders.value[index] = response.data
+      }
+      return true
+    } catch (err: any) {
+      error.value = err.response?.data?.message || 'Failed to update order'
+      return false
+    }
+  }
+
+  return {
+    orders,
+    loading,
+    error,
+    fetchOrders,
+    updateOrderStatus,
+  }
+})

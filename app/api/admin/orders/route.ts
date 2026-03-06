@@ -1,0 +1,32 @@
+import { createClient } from '@supabase/supabase-js'
+import { NextRequest, NextResponse } from 'next/server'
+import { verifyToken } from '@/lib/auth'
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!
+)
+
+export async function GET(request: NextRequest) {
+  try {
+    const auth = verifyToken(request)
+    if (!auth) {
+      return NextResponse.json({ message: 'Unauthorized' }, { status: 401 })
+    }
+
+    const { data: orders, error } = await supabase
+      .from('orders')
+      .select(`
+        *,
+        order_items(*)
+      `)
+      .order('created_at', { ascending: false })
+
+    if (error) throw error
+
+    return NextResponse.json(orders)
+  } catch (error: any) {
+    console.error('Get orders error:', error)
+    return NextResponse.json({ message: 'Internal server error' }, { status: 500 })
+  }
+}
