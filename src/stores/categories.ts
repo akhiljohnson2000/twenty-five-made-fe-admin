@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import axios from 'axios'
+import { api } from '@/lib/api'
 
 export interface Category {
   id: string
@@ -19,7 +19,7 @@ export const useCategoriesStore = defineStore('categories', () => {
     loading.value = true
     error.value = null
     try {
-      const response = await axios.get('/api/admin/categories', {
+      const response = await api.get('/api/admin/categories', {
         headers: { Authorization: `Bearer ${localStorage.getItem('admin_token')}` },
       })
       categories.value = response.data
@@ -32,7 +32,7 @@ export const useCategoriesStore = defineStore('categories', () => {
 
   const addCategory = async (categoryData: Omit<Category, 'id' | 'created_at' | 'updated_at'>) => {
     try {
-      const response = await axios.post('/api/admin/categories', categoryData, {
+      const response = await api.post('/api/admin/categories', categoryData, {
         headers: { Authorization: `Bearer ${localStorage.getItem('admin_token')}` },
       })
       categories.value.push(response.data)
@@ -45,7 +45,7 @@ export const useCategoriesStore = defineStore('categories', () => {
 
   const updateCategory = async (id: string, categoryData: Partial<Category>) => {
     try {
-      const response = await axios.put(`/api/admin/categories/${id}`, categoryData, {
+      const response = await api.put(`/api/admin/categories/${id}`, categoryData, {
         headers: { Authorization: `Bearer ${localStorage.getItem('admin_token')}` },
       })
       const index = categories.value.findIndex(c => c.id === id)
@@ -61,7 +61,7 @@ export const useCategoriesStore = defineStore('categories', () => {
 
   const deleteCategory = async (id: string) => {
     try {
-      await axios.delete(`/api/admin/categories/${id}`, {
+      await api.delete(`/api/admin/categories/${id}`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('admin_token')}` },
       })
       categories.value = categories.value.filter(c => c.id !== id)

@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import axios from 'axios'
+import { api } from '@/lib/api'
 
 export interface Order {
   id: string
@@ -30,7 +30,7 @@ export const useOrdersStore = defineStore('orders', () => {
     loading.value = true
     error.value = null
     try {
-      const response = await axios.get('/api/admin/orders', {
+      const response = await api.get('/api/admin/orders', {
         headers: { Authorization: `Bearer ${localStorage.getItem('admin_token')}` },
       })
       orders.value = response.data
@@ -43,7 +43,7 @@ export const useOrdersStore = defineStore('orders', () => {
 
   const updateOrderStatus = async (id: string, status: Order['status']) => {
     try {
-      const response = await axios.patch(`/api/admin/orders/${id}`, { status }, {
+      const response = await api.patch(`/api/admin/orders/${id}`, { status }, {
         headers: { Authorization: `Bearer ${localStorage.getItem('admin_token')}` },
       })
       const index = orders.value.findIndex(o => o.id === id)

@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import axios from 'axios'
+import { api } from '@/lib/api'
 
 export interface Product {
   id: string
@@ -23,7 +23,7 @@ export const useProductsStore = defineStore('products', () => {
     loading.value = true
     error.value = null
     try {
-      const response = await axios.get('/api/admin/products', {
+      const response = await api.get('/api/admin/products', {
         headers: { Authorization: `Bearer ${localStorage.getItem('admin_token')}` },
       })
       products.value = response.data
@@ -36,7 +36,7 @@ export const useProductsStore = defineStore('products', () => {
 
   const addProduct = async (productData: Omit<Product, 'id' | 'created_at' | 'updated_at'>) => {
     try {
-      const response = await axios.post('/api/admin/products', productData, {
+      const response = await api.post('/api/admin/products', productData, {
         headers: { Authorization: `Bearer ${localStorage.getItem('admin_token')}` },
       })
       products.value.push(response.data)
@@ -49,7 +49,7 @@ export const useProductsStore = defineStore('products', () => {
 
   const updateProduct = async (id: string, productData: Partial<Product>) => {
     try {
-      const response = await axios.put(`/api/admin/products/${id}`, productData, {
+      const response = await api.put(`/api/admin/products/${id}`, productData, {
         headers: { Authorization: `Bearer ${localStorage.getItem('admin_token')}` },
       })
       const index = products.value.findIndex(p => p.id === id)
@@ -65,7 +65,7 @@ export const useProductsStore = defineStore('products', () => {
 
   const deleteProduct = async (id: string) => {
     try {
-      await axios.delete(`/api/admin/products/${id}`, {
+      await api.delete(`/api/admin/products/${id}`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('admin_token')}` },
       })
       products.value = products.value.filter(p => p.id !== id)

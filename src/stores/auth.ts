@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import { supabase } from '@/lib/supabase'
-import axios from 'axios'
+import { api } from '@/lib/api'
 
 export const useAuthStore = defineStore('auth', () => {
   const user = ref<{ id: string; email: string } | null>(null)
@@ -15,7 +15,7 @@ export const useAuthStore = defineStore('auth', () => {
     loading.value = true
     error.value = null
     try {
-      const response = await axios.post('/api/admin/login', { email, password })
+      const response = await api.post('/api/admin/login', { email, password })
       token.value = response.data.token
       user.value = response.data.user
       localStorage.setItem('admin_token', token.value)
