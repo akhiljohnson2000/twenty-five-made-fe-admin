@@ -3,9 +3,9 @@
     <component v-if="!isLoggedIn" :is="LoginPage" />
     <template v-else>
       <Navbar />
-      <div class="flex min-h-[calc(100vh-56px)]">
+      <div class="min-h-[calc(100vh-56px)]">
         <Sidebar />
-        <main class="flex-1 p-6 lg:p-8 overflow-auto">
+        <main class="p-6 lg:p-8 overflow-auto">
           <RouterView />
         </main>
       </div>
